@@ -129,7 +129,11 @@ if st.button("Predict"):
 
     prediction = model.predict(data)
 
+    probability = model.predict_proba(data)[0][1] * 100
+
     if prediction[0] == 1:
         st.error("Diabetic")
     else:
         st.success("Non-Diabetic")
+
+    st.metric("Diabetes Risk", f"{probability:.2f}%")
