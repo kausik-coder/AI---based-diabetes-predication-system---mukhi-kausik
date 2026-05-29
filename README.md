@@ -48,5 +48,9 @@ python -m streamlit run app.py
 * requirements.txt
 * README.md
 
+## Project Screenshot
+
+![Project Screenshot](screenshot.png.png)
+
 ## Author
 mukhi kausik
