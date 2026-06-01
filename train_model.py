@@ -12,20 +12,23 @@ df = pd.read_csv("diabetes_binary_5050split_health_indicators_BRFSS2015.csv")
 X = df.drop("Diabetes_binary", axis=1)
 y = df["Diabetes_binary"]
 
-
-
-
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
-)
-
-# Train model
-model = RandomForestClassifier(
-    n_estimators=100,
+    X,
+    y,
+    test_size=0.2,
     random_state=42
 )
 
+# Smaller model for deployment
+model = RandomForestClassifier(
+    n_estimators=20,
+    max_depth=10,
+    random_state=42,
+    n_jobs=-1
+)
+
+# Train model
 model.fit(X_train, y_train)
 
 # Predictions
@@ -37,7 +40,11 @@ print("Precision:", precision_score(y_test, y_pred))
 print("Recall   :", recall_score(y_test, y_pred))
 print("F1 Score :", f1_score(y_test, y_pred))
 
-# Save model
-joblib.dump(model, "model.pkl")
+# Save compressed model
+joblib.dump(
+    model,
+    "model.pkl",
+    compress=3
+)
 
 print("Model saved successfully!")
